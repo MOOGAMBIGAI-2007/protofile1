@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio | Creative Developer</title>
+    <style>
+      :root {
+        --bg: #f8fafc;
+        --surface: rgba(255, 255, 255, 0.92);
+        --surface-strong: #ffffff;
+        --text: #15202b;
+        --muted: #6b7280;
+        --primary: #2563eb;
+        --primary-soft: rgba(37, 99, 235, 0.14);
+        --accent: #f97316;
+        --border: rgba(15, 23, 42, 0.08);
+        --shadow: 0 32px 120px rgba(15, 23, 42, 0.12);
+        --radius: 28px;
+        --max-width: 1180px;
+      }
+
+      [data-theme="dark"] {
+        --bg: #071014;
+        --surface: rgba(10, 25, 41, 0.88);
+        --surface-strong: rgba(11, 29, 51, 0.98);
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --primary: #60a5fa;
+        --primary-soft: rgba(96, 165, 250, 0.16);
+        --accent: #fb923c;
+        --border: rgba(148, 163, 184, 0.12);
+        --shadow: 0 32px 120px rgba(0, 0, 0, 0.28);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.18), transparent 28%),
+          var(--bg);
+        color: var(--text);
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      button,
+      a {
+        font: inherit;
+      }
+
+      .page-shell {
+        width: min(100%, calc(100vw - 1rem));
+        margin: 0 auto;
+        max-width: var(--max-width);
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(18px);
+        background: rgba(248, 250, 252, 0.74);
+        border-bottom: 1px solid var(--border);
+      }
+
+      [data-theme="dark"] header {
+        background: rgba(7, 16, 20, 0.84);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 0;
+      }
+
+      .brand {
+        font-size: 0.95rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--text);
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a:focus-visible {
+        color: var(--text);
+      }
+
+      .theme-switch {
+        border: 1px solid var(--border);
+        background: var(--surface-strong);
+        color: var(--text);
+        padding: 0.85rem 1rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+
+      .theme-switch:hover {
+        transform: translateY(-1px);
+      }
+
+      main {
+        padding: 2rem 0 4rem;
+        display: grid;
+        gap: 2.5rem;
+      }
+
+      .hero {
+        display: grid;
+        gap: 2rem;
+        padding: 2rem 0;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .hero-copy {
+        max-width: 42rem;
+        display: grid;
+        gap: 1.3rem;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.45rem 0.8rem;
+        border-radius: 999px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 0.95rem;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 4vw, 4.2rem);
+        line-height: 1.02;
+        margin: 0;
+      }
+
+      .hero-copy p {
+        line-height: 1.8;
+        color: var(--muted);
+        max-width: 40rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .btn,
+      .btn-secondary {
+        border: 0;
+        border-radius: 999px;
+        padding: 0.95rem 1.4rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .btn {
+        background: var(--primary);
+        color: #fff;
+        box-shadow: 0 18px 50px rgba(37, 99, 235, 0.22);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .btn:hover,
+      .btn-secondary:hover {
+        transform: translateY(-2px);
+      }
+
+      .hero-visual {
+        border-radius: var(--radius);
+        overflow: hidden;
+        min-height: 360px;
+        position: relative;
+        background: linear-gradient(180deg, rgba(96, 165, 250, 0.3), rgba(249, 115, 22, 0.16));
+        box-shadow: var(--shadow);
+      }
+
+      .hero-visual::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.28), transparent 36%),
+          radial-gradient(circle at bottom left, rgba(249, 115, 22, 0.22), transparent 40%);
+      }
+
+      .hero-panel {
+        position: relative;
+        z-index: 1;
+        padding: 2rem;
+        height: 100%;
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .hero-panel h2 {
+        margin: 0;
+        font-size: clamp(1.3rem, 2vw, 1.8rem);
+      }
+
+      .hero-panel p {
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.75);
+        border: 1px solid var(--border);
+        border-radius: 1.5rem;
+        padding: 1.2rem 1.25rem;
+        display: grid;
+        gap: 0.35rem;
+      }
+
+      [data-theme="dark"] .stat-card {
+        background: rgba(10, 25, 41, 0.96);
+      }
+
+      .stat-card strong {
+        font-size: 1.45rem;
+      }
+
+      .section {
+        display: grid;
+        gap: 1.6rem;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .section-header h2 {
+        margin: 0;
+      }
+
+      .section-header a {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .about-grid,
+      .project-grid,
+      .experience-grid {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-card,
+      .skill-card,
+      .project-card,
+      .testimonial-card,
+      .contact-card {
+        background: var(--surface-strong);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.6rem;
+        box-shadow: 0 20px 70px rgba(15, 23, 42, 0.08);
+      }
+
+      .profile-card {
+        display: grid;
+        gap: 1.25rem;
+      }
+
+      .profile-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .avatar {
+        width: 4.25rem;
+        height: 4.25rem;
+        border-radius: 1rem;
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.75), rgba(249, 115, 22, 0.8));
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.25rem;
+      }
+
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .tag {
+        display: inline-flex;
+        padding: 0.55rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(37, 99, 235, 0.08);
+        color: var(--primary);
+        font-size: 0.9rem;
+      }
+
+      .skill-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .skill-card {
+        display: grid;
+        gap: 0.65rem;
+      }
+
+      .skill-progress {
+        width: 100%;
+        height: 0.5rem;
+        border-radius: 999px;
+        background: var(--border);
+        overflow: hidden;
+      }
+
+      .skill-progress span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+      }
+
+      .project-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+
+      .project-card {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .project-card h3 {
+        margin: 0;
+      }
+
+      .project-card p {
+        color: var(--muted);
+      }
+
+      .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+      }
+
+      .project-tag {
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.05);
+        color: var(--text);
+        font-size: 0.84rem;
+      }
+
+      .testimonial-grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .testimonial-card {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .testimonial-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .quote {
+        font-size: 1rem;
+        line-height: 1.9;
+        color: var(--muted);
+      }
+
+      .contact-grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .contact-card {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .contact-card label {
+        display: grid;
+        gap: 0.45rem;
+        font-size: 0.95rem;
+      }
+
+      .contact-card input,
+      .contact-card textarea {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1rem 1.1rem;
+        background: transparent;
+        color: var(--text);
+      }
+
+      .contact-card textarea {
+        min-height: 160px;
+        resize: vertical;
+      }
+
+      footer {
+        padding: 2rem 0 1rem;
+        text-align: center;
+        color: var(--muted);
+      }
+
+      .accent-bar {
+        height: 4px;
+        width: min(140px, 24vw);
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+      }
+
+      @media (min-width: 760px) {
+        .hero-grid {
+          grid-template-columns: 1.05fr 0.95fr;
+        }
+
+        .about-grid {
+          grid-template-columns: 1.5fr 1fr;
+        }
+
+        .hero-visual {
+          min-height: 420px;
+        }
+      }
+
+      @media (min-width: 980px) {
+        main {
+          gap: 3rem;
+        }
+
+        .hero {
+          padding: 3rem 0;
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .testimonial-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .contact-grid {
+          grid-template-columns: 1.2fr 0.8fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header>
+        <div class="topbar">
+          <div class="brand">Creative Portfolio</div>
+          <nav class="nav-links" aria-label="Primary navigation">
+            <a href="#about">About</a>
+            <a href="#work">Work</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+            <button class="theme-switch" id="themeToggle" type="button" aria-label="Toggle theme">
+              Dark mode
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <span class="eyebrow">Designer &amp; Front-end Developer</span>
+              <h1 id="hero-title">Building memorable digital experiences with elegant CSS and refined interactions.</h1>
+              <p>
+                I create responsive, polished web interfaces using modern CSS layouts, fluid animations, and a mobile-first design system. The result is a captivating portfolio that performs consistently across every screen.
+              </p>
+              <div class="hero-actions">
+                <a class="btn" href="#contact">Start a project</a>
+                <a class="btn-secondary" href="#work">View projects</a>
+              </div>
+            </div>
+
+            <article class="hero-visual" aria-label="Portfolio overview graphic">
+              <div class="hero-panel">
+                <h2>Featured Stats</h2>
+                <p>Design systems, interactive landing pages, and polished brand experiences built with CSS Grid, Flexbox, and modern responsive techniques.</p>
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <strong>12+</strong>
+                    <span>Years crafting digital products</span>
+                  </div>
+                  <div class="stat-card">
+                    <strong>68</strong>
+                    <span>Responsive web pages launched</span>
+                  </div>
+                  <div class="stat-card">
+                    <strong>100%</strong>
+                    <span>High performance and accessibility</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="about">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">About me</p>
+              <h2>Designing polished, responsive web systems.</h2>
+            </div>
+            <a href="#contact">Let’s collaborate</a>
+          </div>
+          <div class="about-grid">
+            <article class="profile-card">
+              <div class="profile-meta">
+                <div class="avatar">SK</div>
+                <div>
+                  <p><strong>Sri K</strong></p>
+                  <p style="color: var(--muted);">Front-end Developer &amp; Visual Designer</p>
+                </div>
+              </div>
+              <p>My work blends semantic HTML, advanced CSS3, and subtle motion to make every web experience feel fast, flexible, and visually thoughtful.</p>
+              <div class="tag-list">
+                <span class="tag">CSS Grid</span>
+                <span class="tag">Flexbox</span>
+                <span class="tag">Responsive</span>
+                <span class="tag">Accessibility</span>
+              </div>
+            </article>
+
+            <article class="skill-card">
+              <h3>Capabilities</h3>
+              <div>
+                <p>Creating systems that are intuitive on small screens and expansive on desktop layouts using modern CSS architecture.</p>
+              </div>
+              <div class="skill-grid">
+                <div class="skill-card">
+                  <span>Advanced CSS architecture</span>
+                  <div class="skill-progress"><span style="width: 95%"></span></div>
+                </div>
+                <div class="skill-card">
+                  <span>Responsive design systems</span>
+                  <div class="skill-progress"><span style="width: 92%"></span></div>
+                </div>
+                <div class="skill-card">
+                  <span>Interactive UI components</span>
+                  <div class="skill-progress"><span style="width: 88%"></span></div>
+                </div>
+                <div class="skill-card">
+                  <span>Modern layout techniques</span>
+                  <div class="skill-progress"><span style="width: 94%"></span></div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="work">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Selected work</p>
+              <h2>Projects built for clarity and performance.</h2>
+            </div>
+          </div>
+          <div class="project-grid">
+            <article class="project-card">
+              <h3>Responsive dashboard UI</h3>
+              <p>A two-dimensional layout using CSS Grid, delivering a data-driven interface that scales across devices.</p>
+              <div class="project-tags">
+                <span class="project-tag">Grid</span>
+                <span class="project-tag">Dashboard</span>
+                <span class="project-tag">Accessibility</span>
+              </div>
+            </article>
+            <article class="project-card">
+              <h3>Portfolio landing experience</h3>
+              <p>Designed for engagement with clean hierarchy, smooth interactions, and mobile-first adaptive structure.</p>
+              <div class="project-tags">
+                <span class="project-tag">Visual design</span>
+                <span class="project-tag">Motion</span>
+                <span class="project-tag">Mobile</span>
+              </div>
+            </article>
+            <article class="project-card">
+              <h3>Creative agency homepage</h3>
+              <p>Modern layout systems paired with vibrant gradients, consistent spacing, and purposeful typography.</p>
+              <div class="project-tags">
+                <span class="project-tag">Branding</span>
+                <span class="project-tag">Layout</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="skills">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">What I use</p>
+              <h2>Tools and techniques for powerful UI architecture.</h2>
+            </div>
+          </div>
+          <div class="skill-grid">
+            <div class="skill-card">
+              <h3>CSS Grid</h3>
+              <p>Designing complex, responsive layouts with control over rows and columns.</p>
+            </div>
+            <div class="skill-card">
+              <h3>Flexbox</h3>
+              <p>Aligning components and spacing content consistently across breakpoints.</p>
+            </div>
+            <div class="skill-card">
+              <h3>Theme systems</h3>
+              <p>Custom variables and modes for confident visual consistency.</p>
+            </div>
+            <div class="skill-card">
+              <h3>Responsive scaling</h3>
+              <p>Mobile-first breakpoints and fluid typography for every screen size.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="testimonial-title">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Client feedback</p>
+              <h2 id="testimonial-title">Trusted by teams seeking polished results.</h2>
+            </div>
+          </div>
+          <div class="testimonial-grid">
+            <article class="testimonial-card">
+              <div class="testimonial-meta">
+                <div>
+                  <strong>Amelia F.</strong>
+                  <div style="color: var(--muted); font-size: 0.95rem;">Product lead</div>
+                </div>
+                <span>2025</span>
+              </div>
+              <p class="quote">"The website felt modern and intuitive from the first click. The responsive layouts are effortless on mobile and desktop."</p>
+            </article>
+            <article class="testimonial-card">
+              <div class="testimonial-meta">
+                <div>
+                  <strong>Jordan M.</strong>
+                  <div style="color: var(--muted); font-size: 0.95rem;">Founder</div>
+                </div>
+                <span>2026</span>
+              </div>
+              <p class="quote">"Clean code, strong visuals, and thoughtful interaction details made the launch smooth and fast."</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="contact">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Contact</p>
+              <h2>Ready to build your next responsive website?</h2>
+            </div>
+          </div>
+          <div class="contact-grid">
+            <article class="contact-card">
+              <label>
+                <span>Name</span>
+                <input type="text" placeholder="Your name" />
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" placeholder="you@example.com" />
+              </label>
+              <label>
+                <span>Message</span>
+                <textarea placeholder="Tell me about your project"></textarea>
+              </label>
+              <button class="btn" type="button">Send message</button>
+            </article>
+            <article class="contact-card">
+              <h3>Let’s connect</h3>
+              <p>Prefer email? Reach out with your project goals and timeline, and I’ll respond with a tailored approach.</p>
+              <div class="tag-list">
+                <span class="tag">info@portfolio.dev</span>
+                <span class="tag">Remote-first</span>
+                <span class="tag">Fast delivery</span>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="accent-bar"></div>
+        <p>© 2026 Creative Portfolio. Crafted with CSS Grid, Flexbox, and responsive design.</p>
+      </footer>
+    </div>
+
+    <script>
+      const themeToggle = document.getElementById('themeToggle');
+      const currentTheme = localStorage.getItem('portfolio-theme') || 'light';
+      const root = document.documentElement;
+
+      function applyTheme(theme) {
+        root.dataset.theme = theme;
+        themeToggle.textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
+        localStorage.setItem('portfolio-theme', theme);
+      }
+
+      applyTheme(currentTheme);
+
+      themeToggle.addEventListener('click', () => {
+        const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme);
+      });
+    </script>
+  </body>
+</html>
